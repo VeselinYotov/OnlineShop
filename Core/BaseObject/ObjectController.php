@@ -1,7 +1,7 @@
 <?php
 
-include_once 'BaseObject.class.php';
-include_once 'BaseInterface.php';
+include_once 'Core/BaseObject/BaseObject.class.php';
+include_once 'ObjectInterface.php';
 include_once 'ObjectRepository.php';
 
 

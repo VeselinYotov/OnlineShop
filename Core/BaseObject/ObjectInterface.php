@@ -5,8 +5,8 @@
 
 interface ObjectInterface 
 {
-    public function create(BaseObject $object);
-    public function read($id): BaseObject;
-    public function update(BaseObject $object);
-    public function delete(BaseObject $object);
+    public function create($object);
+    public function read($id);
+    public function update($object);
+    public function delete($object);
 }

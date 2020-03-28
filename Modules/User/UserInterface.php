@@ -1,11 +1,12 @@
 <?php
 
 require_once('Core/BaseObject/ObjectInterface.php');
-
+require_once('Core/BaseObject/BaseObject.class.php');
+require_once('Modules/User/User.class.php');
 interface UserInterface extends ObjectInterface
 {
-    public function add(User $user);
-    public function findByID($id): User;
-    public function update(User $user);
-    public function remove(User $user);
+    public function create($user);
+    public function read($id);
+    public function update($user);
+    public function delete($user);
 }

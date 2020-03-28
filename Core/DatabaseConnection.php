@@ -59,12 +59,12 @@ Class DatabaseConnection {
     private function getPDOConnection() {
         // Check if the connection is already established
         if ($this->DatabaseConnection == NULL) {
-            $DSN = $this->parameters['driver'] .
-                ":host=" . $this->parameters['host'] .
-                ";dbname=" . $this->parameters['dbname'];
+            $DSN = $this->connectionParameters['driver'] .
+                ":host=" . $this->connectionParameters['host'] .
+                ";dbname=" . $this->connectionParameters['dbname'];
             // Create the connection
             try {
-                $this->DatabaseConnection = new PDO( $DSN, $this->parameters[ 'username' ], $this->parameters[ 'password' ] );
+                $this->DatabaseConnection = new PDO( $DSN, $this->connectionParameters[ 'username' ], $this->connectionParameters[ 'password' ] );
             } catch( PDOException $e ) {
                 echo __LINE__.$e->getMessage();
             }

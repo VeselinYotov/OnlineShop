@@ -5,23 +5,25 @@ include_once 'Core/DataBaseConnection.php';
 
 abstract class ObjectRepository implements ObjectInterface
 {
-    private $db;
+    protected $db;
 
     public function __construct()
     {
+
         $params = array();
         $params['driver'] = "mysql";
-        $params['host'] = "mysql";
-        $params['dbname'] = "";
+        $params['host'] = "localhost";
+        $params['dbname'] = "OnlineShop";
         $params['username'] = "root";
         $params['password'] = "";
-        ;
+        
         
         $this->db = new DatabaseConnection($params);
+        
     }
 
-    abstract public function create(User $user);
-    abstract public function read($id): User;
-    abstract public function update(User $user);
-    abstract public function remove(User $user);
+    abstract public function create($user);
+    abstract public function read($id);
+    abstract public function update($user);
+    abstract public function delete($user);
 }

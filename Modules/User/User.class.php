@@ -11,8 +11,8 @@ class User extends BaseObject{
     
     public function __construct($username , $password)
     {
-        $this->Username = $username;
-        $this->Password = $password;
+        $this->username = $username;
+        $this->password = $password;
     }
 
 
