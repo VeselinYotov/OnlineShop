@@ -3,15 +3,8 @@
 include_once 'UserInterface.php';
 include_once 'Modules/DataBaseConnection.php';
 
-class UserRepository implements UserInterface
+class UserRepository extends ObjectRepository implements UserInterface
 {
-    private $db;
-
-    public function __construct()
-    {
-        $this->db = new DataBase();
-    }
-
     public function add(User $user)
     {
         // How to make it with pdo so i dont use temp variables for User attributes ?

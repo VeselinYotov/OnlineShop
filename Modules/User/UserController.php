@@ -1,10 +1,10 @@
 <?php
-
+require_once('Core/BaseObject/ObjectController.php');
 include_once 'User.class.php';
 include_once 'UserInterface.php';
 include_once 'UserRepository.php';
 
-class UserController
+class UserController extends ObjectController
 {
     private $users;
 

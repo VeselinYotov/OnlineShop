@@ -1,6 +1,8 @@
 <?php
 
-interface UserInterface
+require_once('Core/BaseObject/ObjectInterface.php');
+
+interface UserInterface extends ObjectInterface
 {
     public function add(User $user);
     public function findByID($id): User;
