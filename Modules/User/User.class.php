@@ -1,5 +1,12 @@
 <?php
 
+
+
+/**
+ * User class 
+ * 
+ * @description - Class used for the logic and functionality of the User entity
+ */
 class User{
 
     private $username;
@@ -12,6 +19,7 @@ class User{
     private $address;
     private $postal_code;
 
+    
     public function __construct($username , $password)
     {
         $this->setUsername($username);
