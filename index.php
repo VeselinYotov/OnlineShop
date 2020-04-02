@@ -9,8 +9,11 @@ $userController = new UserController($users);
 
 // Create new User
 $params = array(
-    'username' => 'user3',
-    'password' => 'password',
+    'username' => 'user5',
+    'password' => 'passwords',
 );
+$userController->createОbject($params);
 
-$userController->addUser($params);
+$result = $userController->readObject(105);
+
+print_r($result);
