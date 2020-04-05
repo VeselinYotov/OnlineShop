@@ -12,27 +12,37 @@ abstract class BaseObject
     * Data variable for inherited class attributes  
     * 
     * @var array 
-    */   
-    protected $data = [];
+     */   
+    protected $attributes = [];
+
+    /**
+     * Primary key for database
+     */
+    protected $primaryKeyName;
+
+    /**
+     * Table name
+     */
+    protected $tableName;
 
     /**
     * Constructor
     * 
     * @param $attributes is associative array of attributes names and their values
-    */
-    public function __construct($attributes)
+     */
+    public function __construct($attr)
     {   
 
         // $attributes_keys holds attributeNames  
-        $attributes_keys = array_keys($attributes);
+        $attributes_keys = array_keys($attr);
 
         // $attributes_keys hold attributeValues 
-        $attributes_values= array_values($attributes);
+        $attributes_values= array_values($attr);
 
         // Assigns attributes to $this->data
         for($i = 0 ; $i < sizeof($attributes_keys) ;$i++)
         {
-            $this->data[$attributes_keys[$i]] = $attributes_values[$i];
+            $this->attributes[$attributes_keys[$i]] = $attributes_values[$i];
         }
     }
 
@@ -41,7 +51,7 @@ abstract class BaseObject
     */
     public function __set( $attributeName, $attributeValue)
     {
-        $this->data[$attributeName] = $attributeValue;
+        $this->$attributes[$attributeName] = $attributeValue;
     }
 
     /**
@@ -49,6 +59,24 @@ abstract class BaseObject
     */
     public function __get($attributeName)
     {
-        return $this->data[$attributeName];
+        echo $attributeName;
+        return $this->attributes[$attributeName];
+    }
+
+    /**
+     * function getAttributes()
+     * 
+     * @return $data
+     */
+    public function getAttributes()
+    {
+        $attr = $this->attributes;
+
+        if(!$attr)
+        {
+            throw new Exception("No attributes have been passed");
+        }
+
+        return $attr;
     }
 }

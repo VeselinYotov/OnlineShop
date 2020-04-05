@@ -42,16 +42,44 @@ abstract class ObjectRepository implements ObjectInterface
      * 
      * @param $user Core\BaseObject\BaseObject
      */
-    abstract public function create($user);
+    public function create($entity)
+    {
+        // $entityKeyNames holds entity attrbute names  
+        $entityKeyNames = array_keys($entity->getAttributes());
+
+        // $entityKeyValues holds entity attrbute values 
+        $entityKeyValues = array_values($entity->getAttributes());
+
+        // Database inser prepare 
+        echo "INSERT INTO " . "'" . $entity->tableName . "'" . " (" . implode("," , $entityKeyNames) ."') VALUES (" . implode("," , $entityKeyValues) . ")";
+        $query = $this->db->DatabaseConnection->exec("INSERT INTO " . "'" . $entity->tableName . "'" . " (" . implode("," , $entityKeyNames) ."') VALUES (" . implode("," , $entityKeyValues) . ")"); 
+
+        // Clears query
+        $query = "";
+    }
 
     /**
      * function read()
      * 
      * holds logic for reading new instance of Core\BaseObject\BaseObject
      * 
-     * @param $id ID of Core\BaseObject\BaseObject
+     * @param $id id of Core\BaseObject\BaseObject
      */
-    abstract public function read($id);
+    public function read($entity)
+    {
+        // Database inser prepare
+        echo "SELECT * FROM " . $entity->tableName . "WHERE ID = " . $entity->id;
+        $query = $this->db->DatabaseConnection->execute("SELECT * FROM " . $entity->tableName . "WHERE ID = " . $entity->id); 
+        
+        // Fetches results from query
+        $result = $query->fetch();
+
+        // Returs array of results
+        return $result;
+
+        //Clears query
+        $query = "";
+    }
 
     /**
      * function update()

@@ -9,4 +9,23 @@ require_once('Core/BaseObject/BaseObject.class.php');
  */
 class User extends BaseObject
 {
+
+    public $attributes = [
+        'username' => "",
+        'password' => "",
+        'email' => "",
+        'first_name' => "",
+        'last_name' => "",
+        'phone_number' => "",
+        'city' => "",
+        'address' => "",
+        'postal_code' => ""
+    ];
+    // Primary key
+    public $primaryKeyName = "id";
+
+    // Table name 
+    public $tableName = "user";
+
+
 }

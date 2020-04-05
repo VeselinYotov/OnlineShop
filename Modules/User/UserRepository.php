@@ -9,8 +9,8 @@ class UserRepository extends ObjectRepository
     {   
         
         $query = $this->db->DatabaseConnection->prepare("INSERT INTO user (Username, Password, Email, First_Name, Last_Name, Phone_Number, City, Address, Postal_Code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $query->execute(
-            [$user->username,
+        $query->execute([
+            $user->username,
             $user->password,
             "",
             "",

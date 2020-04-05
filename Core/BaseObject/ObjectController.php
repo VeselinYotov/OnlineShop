@@ -30,10 +30,16 @@ abstract class ObjectController
     }
 
     // Creates new instance of Child Object
-    abstract public function createОbject($params); 
+    public function createОbject($entity)
+    {
+    // How to create new object? 
+    }
 
     // Reades instace of Child Object 
-    abstract public function readObject($id);
+    public function readObject($id)
+    {
+        $this->objects->read($id); // How to read from different modules?
+    }
 
     // Updates instance of Child Object
     abstract public function updateObject($params);
