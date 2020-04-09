@@ -65,7 +65,7 @@ class ObjectRepository implements ObjectInterface
      * 
      * holds logic for reading new instance of Core\BaseObject\BaseObject
      * 
-     * @param $attributes assosiative array [ attributes[{ENTITY} tableName] , attributes[{ENTITY} primaryKeyName] ] 
+     * @param $attributes assosiative array [ attributes[{Child of BaseObject} tableName] , attributes[{Child of BaseObject} primaryKeyName] ] 
      */
     public function findById($attributes)
     {
@@ -85,9 +85,9 @@ class ObjectRepository implements ObjectInterface
     /**
      * function update()
      * 
-     * holds logic for updating new instance of Core\BaseObject\BaseObject
+     * holds logic for updating instance of Core\BaseObject\BaseObject
      * 
-     * @param $user Core\BaseObject\BaseObject
+     * @param $attributes for updating children of Core\BaseObject\BaseObject
      */
     public function update($attributes)
     {
@@ -96,12 +96,31 @@ class ObjectRepository implements ObjectInterface
 
         // $entityKeyValues holds entity attrbute values 
         $attributesKeyValues = array_values($attributes->getAttributes());
+        
+        // $keysWithValues holds keys for PDO::prepare() of type keyName= :keyName
+        $keysWithValues = [];
+
+        // $queryData assosiative array with values for PDO::execute() 
+        $queryData = [];
+
+        foreach($attributes->attributes as $attributeKeyName => &$attributeKeyValue)
+        {
+            // Assigns keys with values to $queryData
+            $queryData[$attributeKeyName] = $attributeKeyValue;
+            
+            // Assigns keys for $keysWithValues
+            array_push($keysWithValues,$attributeKeyName."=:".$attributeKeyName);
+            
+        }
+        // Adds entity->id to $queryData
+        $queryData['id'] = $attributes->id;
 
         // Database prepare update
-        // No prepare way?
-        $query = $this->db->DatabaseConnection->prepare("UPDATE " . "'" . $attributes->tableName . "'" . "SET(" . implode("=?," , $attributesKeyNames) ."=?') WHERE id = " . $attributes->id);
-        $query = $this->db->DatabaseConnection->exec([$attributesKeyValues]); 
-   
+        $query = $this->db->DatabaseConnection->prepare("UPDATE " . $attributes->tableName . " SET " . implode("," , $keysWithValues) ." WHERE id = :id ");
+        
+        // Executes $query
+        $query->execute($queryData);
+
     }
 
     /**
@@ -111,8 +130,12 @@ class ObjectRepository implements ObjectInterface
      * 
      * @param $user Core\BaseObject\BaseObject
      */
-    public function delete($user)
+    public function delete($entity)
     {
+        // Sql delete 
+        $query =  $this->db->DatabaseConnection->exec("DELETE FROM " . $entity['tableName'] . " WHERE id= " . $entity['id']);
 
+        // Clears query
+        $query = "";
     }
 }
