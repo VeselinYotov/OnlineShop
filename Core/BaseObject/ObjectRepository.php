@@ -89,13 +89,13 @@ class ObjectRepository implements ObjectInterface
      * 
      * @param $attributes for updating children of Core\BaseObject\BaseObject
      */
-    public function update($attributes)
+    public function update($entity)
     {
         // $entityKeyNames holds entity attrbute names  
-        $attributesKeyNames = array_keys($attributes->getAttributes());
+        $entityKeyNames = array_keys($entity->getAttributes());
 
         // $entityKeyValues holds entity attrbute values 
-        $attributesKeyValues = array_values($attributes->getAttributes());
+        $entityKeyValues = array_values($entity->getAttributes());
         
         // $keysWithValues holds keys for PDO::prepare() of type keyName= :keyName
         $keysWithValues = [];
@@ -103,20 +103,20 @@ class ObjectRepository implements ObjectInterface
         // $queryData assosiative array with values for PDO::execute() 
         $queryData = [];
 
-        foreach($attributes->attributes as $attributeKeyName => &$attributeKeyValue)
+        foreach($entity->attributes as $entityKeyName => &$entityKeyValue)
         {
             // Assigns keys with values to $queryData
-            $queryData[$attributeKeyName] = $attributeKeyValue;
+            $queryData[$entityKeyName] = $entityKeyValue;
             
             // Assigns keys for $keysWithValues
-            array_push($keysWithValues,$attributeKeyName."=:".$attributeKeyName);
+            array_push($keysWithValues,$entityKeyName."=:".$entityKeyName);
             
         }
         // Adds entity->id to $queryData
-        $queryData['id'] = $attributes->id;
+        $queryData['id'] = $entity->id;
 
         // Database prepare update
-        $query = $this->db->DatabaseConnection->prepare("UPDATE " . $attributes->tableName . " SET " . implode("," , $keysWithValues) ." WHERE id = :id ");
+        $query = $this->db->DatabaseConnection->prepare("UPDATE " . $entity->tableName . " SET " . implode("," , $keysWithValues) ." WHERE id = :id ");
         
         // Executes $query
         $query->execute($queryData);
