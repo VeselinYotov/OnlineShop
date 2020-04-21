@@ -27,5 +27,4 @@ class User extends BaseObject
     // Table name 
     public $tableName = "user";
 
-
 }
