@@ -18,6 +18,8 @@ class ObjectRepository implements ObjectInterface
      */
     protected $db;
 
+    protected $objectTableName;
+
     /**
      * Constructor
      */
@@ -67,10 +69,10 @@ class ObjectRepository implements ObjectInterface
      * 
      * @param $attributes assosiative array [ attributes[{Child of BaseObject} tableName] , attributes[{Child of BaseObject} primaryKeyName] ] 
      */
-    public function findById($attributes)
+    public function findById($id)
     {
         // Database prepare insert 
-        $query = $this->db->DatabaseConnection->query("SELECT * FROM ". $attributes['tableName'] . " WHERE id = " . $attributes['primaryKeyName']); 
+        $query = $this->db->DatabaseConnection->query("SELECT * FROM ". $this->objectTableName . " WHERE id = " . $id); 
 
         //Fetches results from query
         $result = $query->fetch();
@@ -89,13 +91,13 @@ class ObjectRepository implements ObjectInterface
      * 
      * @param $attributes for updating children of Core\BaseObject\BaseObject
      */
-    public function update($entity)
+    public function update($attributes)
     {
         // $entityKeyNames holds entity attrbute names  
-        $entityKeyNames = array_keys($entity->getAttributes());
+        $attributesKeyNames = array_keys($attributes->getAttributes());
 
         // $entityKeyValues holds entity attrbute values 
-        $entityKeyValues = array_values($entity->getAttributes());
+        $attributesKeyValues = array_values($attributes->getAttributes());
         
         // $keysWithValues holds keys for PDO::prepare() of type keyName= :keyName
         $keysWithValues = [];
@@ -103,20 +105,20 @@ class ObjectRepository implements ObjectInterface
         // $queryData assosiative array with values for PDO::execute() 
         $queryData = [];
 
-        foreach($entity->attributes as $entityKeyName => &$entityKeyValue)
+        foreach($attributes->attributes as $attributeKeyName => &$attributeKeyValue)
         {
             // Assigns keys with values to $queryData
-            $queryData[$entityKeyName] = $entityKeyValue;
+            $queryData[$attributeKeyName] = $attributeKeyValue;
             
             // Assigns keys for $keysWithValues
-            array_push($keysWithValues,$entityKeyName."=:".$entityKeyName);
+            array_push($keysWithValues,$attributeKeyName."=:".$attributeKeyName);
             
         }
         // Adds entity->id to $queryData
-        $queryData['id'] = $entity->id;
+        $queryData['id'] = $attributes->id;
 
         // Database prepare update
-        $query = $this->db->DatabaseConnection->prepare("UPDATE " . $entity->tableName . " SET " . implode("," , $keysWithValues) ." WHERE id = :id ");
+        $query = $this->db->DatabaseConnection->prepare("UPDATE " . $attributes->tableName . " SET " . implode("," , $keysWithValues) ." WHERE id = :id ");
         
         // Executes $query
         $query->execute($queryData);
