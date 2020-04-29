@@ -93,7 +93,6 @@ Class DatabaseConnection {
     public function getQuery( $sql ) 
     {
 		$stmt = $this->DatabaseConnection->query( $sql );
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
 		return $stmt;
 	}

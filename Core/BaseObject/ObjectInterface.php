@@ -10,7 +10,7 @@ require_once('Core/BaseObject/BaseObject.class.php');
 interface ObjectInterface 
 {
     public function create($object);
-    public function read($id);
+    public function findById($id);
     public function update($object);
     public function delete($object);
 }

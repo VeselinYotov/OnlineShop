@@ -42,18 +42,15 @@ class ObjectRepository implements ObjectInterface
      * 
      * holds logic for creating new instance of Core\BaseObject\BaseObject
      * 
-     * @param $user Core\BaseObject\BaseObject
+     * @param $entity child instance of Core\BaseObject\BaseObject
      */
     public function create($entity)
     {
-        // $entityKeyNames holds entity attrbute names  
-        $entityKeyNames = array_keys($entity->getAttributes());
-
         // $entityKeyValues holds entity attrbute values 
         $entityKeyValues = array_values($entity->getAttributes());
 
         // Database inser prepare 
-        $query = $this->db->DatabaseConnection->exec('INSERT INTO ' . $entity->tableName . " VALUES ('id','" . implode("','" , $entityKeyValues) . "')");
+        $query = $this->db->DatabaseConnection->exec('INSERT INTO ' . $this->objectTableName . " VALUES ('id','" . implode("','" , $entityKeyValues) . "')");
         if(!$query)
         {
             var_dump($this->db->DatabaseConnection->errorInfo());
@@ -67,7 +64,7 @@ class ObjectRepository implements ObjectInterface
      * 
      * holds logic for reading new instance of Core\BaseObject\BaseObject
      * 
-     * @param $attributes assosiative array [ attributes[{Child of BaseObject} tableName] , attributes[{Child of BaseObject} primaryKeyName] ] 
+     * @param $id id of Object  
      */
     public function findById($id)
     {
@@ -93,19 +90,14 @@ class ObjectRepository implements ObjectInterface
      */
     public function update($attributes)
     {
-        // $entityKeyNames holds entity attrbute names  
-        $attributesKeyNames = array_keys($attributes->getAttributes());
-
-        // $entityKeyValues holds entity attrbute values 
-        $attributesKeyValues = array_values($attributes->getAttributes());
-        
+        echo implode(',',$attributes);
         // $keysWithValues holds keys for PDO::prepare() of type keyName= :keyName
         $keysWithValues = [];
 
         // $queryData assosiative array with values for PDO::execute() 
         $queryData = [];
 
-        foreach($attributes->attributes as $attributeKeyName => &$attributeKeyValue)
+        foreach($attributes as $attributeKeyName => $attributeKeyValue)
         {
             // Assigns keys with values to $queryData
             $queryData[$attributeKeyName] = $attributeKeyValue;
@@ -115,10 +107,10 @@ class ObjectRepository implements ObjectInterface
             
         }
         // Adds entity->id to $queryData
-        $queryData['id'] = $attributes->id;
+        $queryData['id'] = $attributes['id'];
 
         // Database prepare update
-        $query = $this->db->DatabaseConnection->prepare("UPDATE " . $attributes->tableName . " SET " . implode("," , $keysWithValues) ." WHERE id = :id ");
+        $query = $this->db->DatabaseConnection->prepare("UPDATE " . $this->objectTableName . " SET " . implode("," , $keysWithValues) ." WHERE id = :id ");
         
         // Executes $query
         $query->execute($queryData);
@@ -132,10 +124,10 @@ class ObjectRepository implements ObjectInterface
      * 
      * @param $user Core\BaseObject\BaseObject
      */
-    public function delete($entity)
+    public function delete($id)
     {
         // Sql delete 
-        $query =  $this->db->DatabaseConnection->exec("DELETE FROM " . $entity['tableName'] . " WHERE id= " . $entity['id']);
+        $query =  $this->db->DatabaseConnection->exec("DELETE FROM " . $this->objectTableName . " WHERE id= " . $id);
 
         // Clears query
         $query = "";

@@ -21,11 +21,6 @@ abstract class BaseObject
     protected $primaryKeyName;
 
     /**
-     * Table name
-     */
-    protected $tableName;
-
-    /**
     * Constructor
     * 
     * @param $attributes is associative array of attributes names and their values

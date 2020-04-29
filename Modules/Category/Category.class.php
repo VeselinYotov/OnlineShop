@@ -9,12 +9,13 @@ require_once('Core/BaseObject/BaseObject.class.php');
  */
 class Category extends BaseObject
 {
-
+    // Category table attributes
     public $attributes = [
         'parent_id' => "",
         'name' => "",
-        'picture_location' => "",
+        'picture_location' => ""
     ];
+
     // Primary key
     public $primaryKeyName = "id";
 
