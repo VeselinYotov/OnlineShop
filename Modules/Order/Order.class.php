@@ -3,23 +3,24 @@
 require_once('Core/BaseObject/BaseObject.class.php');
 
 /**
- * User class 
+ * Order class 
  * 
- * @description - Class used for the logic and functionality of the User entity
+ * @description - Class used for the logic and functionality of the Order entity
  */
-class User extends BaseObject
+class Order extends BaseObject
 {
-    // User table attributes
 
+    // Order table attributes
     public $attributes = [
-        'password' => "",
-        'email' => "",
+        'user_id' => "",
+        'created_at' => "",
         'first_name' => "",
         'last_name' => "",
         'phone_number' => "",
         'city' => "",
         'address' => "",
-        'postal_code' => ""
+        'postal_code' => "",
+        'order_sum' => ""
     ];
 
     // Primary key
